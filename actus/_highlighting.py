@@ -5,7 +5,7 @@ from ._theme import theme as _theme
 import colex as _colex
 
 
-_BRACKET_CONTENT_PATTERN = _re.compile(r"\[([^]]+)\]")
+_BRACKET_CONTENT_PATTERN = _re.compile(r"\$\[([^]]+)\]")
 
 
 def _replace_match(match: _re.Match[str]) -> str:
