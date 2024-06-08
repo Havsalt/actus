@@ -13,7 +13,7 @@ Includes:
 - `get_theme`
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __all__ = [
     "info",
     "warn",
@@ -23,8 +23,8 @@ __all__ = [
     "get_theme"
 ]
 
+import re as _re
 import sys as _sys
-from string import Formatter as _Formatter
 
 import colex as _colex
 
@@ -58,20 +58,17 @@ def get_theme() -> Theme: #
     )
 
 
+_PARENTHESES_CONTENT_PATTERN = _re.compile(r"\(([^)]+)\)")
+
+def _replace_match(match: _re.Match[str]) -> str:
+    return _theme.highlight + match.group(1) + _theme.text
+
 def _highlight(string: str) -> str:
-    colored = _colex.colorize(string, _theme.text)
-    keys = [
-        result[1]
-        for result in _Formatter().parse(string)
-        if result[1]
-    ]
-    highlighted_values = [
-        _theme.highlight + key + _theme.text
-        for key in keys
-    ]
-    pairs = dict(zip(keys, highlighted_values))
-    highlighted = colored.format_map(pairs)
-    return highlighted
+    return (
+        _theme.text
+        + _PARENTHESES_CONTENT_PATTERN.sub(_replace_match, string)
+        + _colex.RESET
+    )
 
 
 def info(
