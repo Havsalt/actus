@@ -58,7 +58,7 @@ def get_theme() -> Theme: #
     )
 
 
-_PARENTHESES_CONTENT_PATTERN = _re.compile(r"\(([^)]+)\)")
+_BRACKET_CONTENT_PATTERN = _re.compile(r"\[([^]]+)\]")
 
 def _replace_match(match: _re.Match[str]) -> str:
     return _theme.highlight + match.group(1) + _theme.text
@@ -66,7 +66,7 @@ def _replace_match(match: _re.Match[str]) -> str:
 def _highlight(string: str) -> str:
     return (
         _theme.text
-        + _PARENTHESES_CONTENT_PATTERN.sub(_replace_match, string)
+        + _BRACKET_CONTENT_PATTERN.sub(_replace_match, string)
         + _colex.RESET
     )
 
