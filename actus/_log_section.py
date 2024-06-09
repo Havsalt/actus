@@ -51,9 +51,9 @@ class LogSection:
         self,
         new_deco: str | None = None,
         /,
-        indent_count: int = 1
+        count: int = 1
     ):
-        self._indent_level += indent_count
+        self._indent_level += count
         if new_deco is not None:
             self.set_indent_deco(new_deco)
         return self
@@ -62,9 +62,9 @@ class LogSection:
         self,
         new_deco: str | None = None,
         /,
-        dedent_count: int = 1
+        count: int = 1
     ):
-        self._indent_level = min(0, self._indent_level - dedent_count)
+        self._indent_level = min(0, self._indent_level - count)
         if new_deco is not None:
             self.set_indent_deco(new_deco)
         return self
