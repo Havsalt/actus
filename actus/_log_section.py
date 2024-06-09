@@ -49,30 +49,30 @@ class LogSection:
     
     def indent(
         self,
-        new_deco: str | None = None,
+        indent_count: int = 1,
         /,
-        count: int = 1
+        deco: str | None = None
     ):
-        self._indent_level += count
-        if new_deco is not None:
-            self.set_indent_deco(new_deco)
+        self._indent_level += indent_count
+        if deco is not None:
+            self.set_indent_deco(deco)
         return self
     
     def dedent(
         self,
-        new_deco: str | None = None,
+        indent_count: int = 1,
         /,
-        count: int = 1
+        deco: str | None = None
     ):
-        self._indent_level = min(0, self._indent_level - count)
-        if new_deco is not None:
-            self.set_indent_deco(new_deco)
+        self._indent_level = min(0, self._indent_level - indent_count)
+        if deco is not None:
+            self.set_indent_deco(deco)
         return self
     
-    def dedent_all(self, new_deco: str | None = None, /):
+    def dedent_all(self, /, deco: str | None = None):
         self._indent_level = 0
-        if new_deco is not None:
-            self.set_indent_deco(new_deco)
+        if deco is not None:
+            self.set_indent_deco(deco)
         return self
 
     def set_style(self, style: _Style | None, /):
