@@ -9,26 +9,34 @@ Includes:
 - `warn`
 - `error`
 - `LogSection`
-- `Theme`
-- `set_theme`
-- `get_theme`
+- `Style`
 """
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 __all__ = [
     "info",
     "warn",
     "error",
     "LogSection",
-    "Theme",
-    "set_theme",
-    "get_theme"
+    "Style"
 ]
 
+from colex import (
+    SEA_GREEN as _DEFAULT_INFO_COLOR,
+    ORANGE as _DEFAULT_WARN_COLOR,
+    CRIMSON as _DEFAULT_ERROR_COLOR,
+)
+
 from ._log_section import LogSection
-from ._theme import Theme, set_theme, get_theme
+from ._style import Style
 
 
-info = LogSection("Info", theme_key="info")
-warn = LogSection("Warning", theme_key="warn")
-error = LogSection("Error", theme_key="error")
+info = LogSection("Info", style=Style(
+    label=_DEFAULT_INFO_COLOR
+))
+warn = LogSection("Warning", style=Style(
+    label=_DEFAULT_WARN_COLOR
+))
+error = LogSection("Error", style=Style(
+    label=_DEFAULT_ERROR_COLOR
+))
