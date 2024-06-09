@@ -60,11 +60,11 @@ class LogSection:
     
     def dedent(
         self,
-        indent_count: int = 1,
+        dedent_count: int = 1,
         /,
         deco: str | None = None
     ):
-        self._indent_level = min(0, self._indent_level - indent_count)
+        self._indent_level = min(0, self._indent_level - dedent_count)
         if deco is not None:
             self.set_indent_deco(deco)
         return self
