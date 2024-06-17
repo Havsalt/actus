@@ -10,15 +10,17 @@ Includes:
 - `error`
 - `LogSection`
 - `Style`
+- `highlight`
 """
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 __all__ = [
     "info",
     "warn",
     "error",
     "LogSection",
-    "Style"
+    "Style",
+    "highlight"
 ]
 
 from colex import (
@@ -29,6 +31,7 @@ from colex import (
 
 from ._log_section import LogSection
 from ._style import Style
+from ._highlighting import highlight
 
 
 info = LogSection("Info", style=Style(

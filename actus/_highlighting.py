@@ -21,6 +21,7 @@ def _replace_match(
 def highlight(
     string: str,
     /,
+    *,
     style: _Style
 ) -> str:
     partial_replace_match = _partial(_replace_match, style=style)
