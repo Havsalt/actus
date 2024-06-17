@@ -28,6 +28,7 @@ class LogSection:
         supress_output: bool = False,
         left_deco: str = "[",
         right_deco: str = "]",
+        label_end: str = " ",
         indent_size: int = 2,
         indent_filler: str = " ",
         indent_deco: str = " ",
@@ -40,6 +41,7 @@ class LogSection:
         self._suppress_output = supress_output
         self._left_deco = left_deco
         self._right_deco = right_deco
+        self._label_end = label_end
         self._indent_size = indent_size
         self._indent_filler = indent_filler
         self._indent_deco = indent_deco
@@ -114,6 +116,10 @@ class LogSection:
     def set_right_deco(self, right_deco: str, /):
         self._right_deco = right_deco
         return self
+    
+    def set_label_end(self, label_end: str, /):
+        self._label_end = label_end
+        return self
 
     def set_indent_size(self, size: int, /):
         self._indent_size = size
@@ -164,9 +170,9 @@ class LogSection:
         if self._indent_level == 0:
             header = self._left_deco + self._label + self._right_deco
             if self._suppress_color:
-                content = header + " " + body
+                content = header + self._label_end + body
             else:
-                content = _colex.colorize(header, self._style.label) + " " + body
+                content = _colex.colorize(header, self._style.label) + self._label_end + body
         else:
             indent_suffix = self._indent_deco + self._indent_delimiter
             indent_chars = self._indent_size * self._indent_level
