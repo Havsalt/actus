@@ -15,9 +15,9 @@ class LogSection:
         /,
         *,
         style: _Style | None = None,
-        supress_color: bool = False,
+        suppress_color: bool = False,
         fd: _FileLike[str] | None = None,
-        supress_output: bool = False,
+        suppress_output: bool = False,
         left_deco: str = "[",
         right_deco: str = "]",
         label_end: str = " ",
@@ -28,9 +28,9 @@ class LogSection:
     ) -> None:
         self._label = label
         self._style = style or _Style()
-        self._suppress_color = supress_color
+        self._suppress_color = suppress_color
         self._fallback_fd: _FileLike[str] = fd or _sys.stdout
-        self._suppress_output = supress_output
+        self._suppress_output = suppress_output
         self._left_deco = left_deco
         self._right_deco = right_deco
         self._label_end = label_end
