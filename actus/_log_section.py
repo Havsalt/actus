@@ -15,7 +15,9 @@ class LogSection:
         /,
         *,
         style: _Style | None = None,
+        supress_color: bool = False,
         fd: _FileLike[str] | None = None,
+        supress_output: bool = False,
         left_deco: str = "[",
         right_deco: str = "]",
         indent_size: int = 2,
@@ -25,7 +27,9 @@ class LogSection:
     ) -> None:
         self._label = label
         self._style = style or _Style()
+        self._suppress_color = supress_color
         self._fallback_fd: _FileLike[str] = fd or _sys.stdout
+        self._suppress_output = supress_output
         self._left_deco = left_deco
         self._right_deco = right_deco
         self._indent_size = indent_size
@@ -119,6 +123,22 @@ class LogSection:
         self._indent_delimiter = delimiter
         return self
     
+    def disable_color(self):
+        self._suppress_color = True
+        return self
+    
+    def enable_color(self):
+        self._suppress_color = False
+        return self
+    
+    def disable_output(self):
+        self._suppress_output = True
+        return self
+    
+    def enable_output(self):
+        self._suppress_output = False
+        return self
+    
     def __call__(
         self,
         *values: str,
@@ -127,16 +147,26 @@ class LogSection:
         fd: _FileLike[str] | None = None,
         flush: bool = True
     ):
-        body = _highlight(sep.join(values), style=self._style)
+        if self._suppress_output:
+            return self
+        if self._suppress_color:
+            body = sep.join(values)
+        else:
+            body = _highlight(sep.join(values), style=self._style)
         if self._indent_level == 0:
-            label_color = self._style.label
             header = self._left_deco + self._label + self._right_deco
-            content = _colex.colorize(header, label_color) + " " + body
+            if self._suppress_color:
+                content = header + " " + body
+            else:
+                content = _colex.colorize(header, self._style.label) + " " + body
         else:
             indent_suffix = self._indent_deco + self._indent_delimiter
             indent_chars = self._indent_size * self._indent_level
             indentation = indent_suffix.rjust(indent_chars, self._indent_filler)
-            content = _colex.colorize(indentation, self._style.indent) + body
+            if self._suppress_color:
+                content = indentation + body
+            else:
+                content = _colex.colorize(indentation, self._style.indent) + body
         final_fd = fd or self._fallback_fd
         final_fd.write(content + end)
         if flush:
