@@ -8,6 +8,14 @@ from ._style import Style as _Style
 from ._annotations import FileLike as _FileLike
 
 
+_SUPRESS_COLOR_STYLE = _Style(
+    label=_colex.NONE,
+    text=_colex.NONE,
+    highlight=_colex.NONE,
+    indent=_colex.NONE
+)
+
+
 class LogSection:
     def __init__(
         self,
@@ -150,7 +158,7 @@ class LogSection:
         if self._suppress_output:
             return self
         if self._suppress_color:
-            body = sep.join(values)
+            body = _highlight(sep.join(values), style=_SUPRESS_COLOR_STYLE)
         else:
             body = _highlight(sep.join(values), style=self._style)
         if self._indent_level == 0:
