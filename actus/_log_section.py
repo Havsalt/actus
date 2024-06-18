@@ -5,7 +5,10 @@ import colex as _colex
 
 from ._highlighting import highlight as _highlight
 from ._style import Style as _Style
-from ._annotations import FileLike as _FileLike
+from ._annotations import (
+    FileLike as _FileLike,
+    SupportsStr as _SupportsStr
+)
 
 
 class LogSection:
@@ -147,7 +150,7 @@ class LogSection:
     
     def __call__(
         self,
-        *values: str,
+        *values: _SupportsStr,
         sep: str = " ",
         end: str = "\n",
         fd: _FileLike[str] | None = None,
@@ -156,9 +159,9 @@ class LogSection:
         if self._suppress_output:
             return self
         if self._suppress_color:
-            body = _highlight(sep.join(values), style=None)
+            body = _highlight(sep.join(map(str, values)), style=None)
         else:
-            body = _highlight(sep.join(values), style=self._style)
+            body = _highlight(sep.join(map(str, values)), style=self._style)
         if self._indent_level == 0:
             header = self._left_deco + self._label + self._right_deco
             if self._suppress_color:
