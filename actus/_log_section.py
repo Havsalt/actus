@@ -73,7 +73,7 @@ class LogSection:
         /,
         deco: str | None = None
     ):
-        self._indent_level = min(0, self._indent_level - dedent_count)
+        self._indent_level = max(0, self._indent_level - dedent_count)
         if deco is not None:
             self.set_indent_deco(deco)
         return self
